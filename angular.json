@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "CinematFlicks-Angular-client"
+    }
+  },
+  "defaultProject": "CinematFlicks-Angular-client",
+  "cli": {
+    "analytics": "df0ceaf7-4bd0-41d2-b8d5-76282132fb6e"
+  }
 }
