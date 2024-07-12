@@ -5,11 +5,11 @@ import { Observable, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 // Declaring the api url that will provide data for the client app
-const apiUrl = 'HOST_API_URL_HERE/';
+const apiUrl = 'https://tinflicks-2bf7ff98613b.herokuapp.com';
 @Injectable({
   providedIn: 'root'
 })
-export class UserRegistrationService {
+export class UserRegisterationService {
   // Inject the HttpClient modules to the constructor params
   // This will provide HttpClient to the entire class, making it available via this.http
   constructor(private http: HttpClient) { 
@@ -24,7 +24,7 @@ export class UserRegistrationService {
 
   public userLogin(userDetails: any): Observable<any> {
     console.log(userDetails);
-    return this.http.post(apiUrl + 'users', userDetails).pipe(
+    return this.http.post(apiUrl + '/users', userDetails).pipe(
       catchError(this.handleError)
     );
   }
