@@ -9,7 +9,7 @@ const apiUrl = 'https://tinflicks-2bf7ff98613b.herokuapp.com';
 @Injectable({
   providedIn: 'root'
 })
-export class UserRegisterationService {
+export class FetchApiDataService {
   // Inject the HttpClient modules to the constructor params
   // This will provide HttpClient to the entire class, making it available via this.http
   constructor(private http: HttpClient) { 
