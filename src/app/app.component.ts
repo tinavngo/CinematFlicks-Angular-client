@@ -12,25 +12,4 @@ import { MovieCardComponent } from './movie-card/movie-card.component';
 export class AppComponent {
   title = 'CinematFlicks-Angular-client';
 
-  constructor(public dialog: MatDialog) { }
-  // this function will open the dialog when the signup button is clicked
-  openUserRegisterationDialog(): void {
-    this.dialog.open(UserRegistrationFormComponent, {
-      width: '400px'
-    });
-  }
-  // this function will open the dialog when the login button is clicked
-  openUserLoginDialog(): void {
-    this.dialog.open(UserLoginFormComponent, {
-      width: '400px'
-    });
-  }
-
-  openMoviesDialog(): void {
-    this.dialog.open(MovieCardComponent, {
-      width: '500px'
-    });
-  }
 }
-
-// once the button is clicked, open the dialog

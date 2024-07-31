@@ -1,30 +1,33 @@
 import { Injectable } from '@angular/core';
-import { catchError } from 'rxjs/internal/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 
 // Declaring the api url that will provide data for the client app
 const apiUrl = 'https://tinflicks-2bf7ff98613b.herokuapp.com';
+//This Injectable code tells Angular that this service will be avaiable everywhere, ie 'root'
 @Injectable({
   providedIn: 'root'
 })
+
 export class FetchApiDataService {
   // Inject the HttpClient modules to the constructor params
   // This will provide HttpClient to the entire class, making it available via this.http
-  constructor(private http: HttpClient) { 
-  }
+  constructor(private http: HttpClient) { }
+
+
+
   // API call for the user registration endpoint
   public userRegistration(userDetails: any): Observable<any> {
     console.log(userDetails);
-    return this.http.post(apiUrl + 'users', userDetails).pipe(
+    return this.http.post(apiUrl + '/users', userDetails).pipe(
       catchError(this.handleError)
     );
   }
 
   public userLogin(userDetails: any): Observable<any> {
     console.log(userDetails);
-    return this.http.post(apiUrl + '/users', userDetails).pipe(
+    return this.http.post(apiUrl + '/login', userDetails).pipe(
       catchError(this.handleError)
     );
   }
@@ -34,10 +37,10 @@ export class FetchApiDataService {
   // and pass token in the HTTP header since this is a protected route
   getAllMovies(): Observable<any> {
     const token = localStorage.getItem('token');
-    return this.http.get(apiUrl + 'movies', {headers: new HttpHeaders(
+    return this.http.get(apiUrl + '/movies', {headers: new HttpHeaders(
       {
         Authorization: 'Bearer ' + token,
-      })}).pipe(
+    })}).pipe(
         map(this.extractResponseData),
         catchError(this.handleError)
       );
@@ -59,7 +62,7 @@ export class FetchApiDataService {
   // an API call for getDirector endpoint
   getDirector(directorName: string): Observable<any> {
     const token = localStorage.getItem('token');
-    return this.http.get(apiUrl + 'movies/director/' + directorName, {headers: new HttpHeaders(
+    return this.http.get(apiUrl + 'movies/directors/' + directorName, {headers: new HttpHeaders(
       {
         Authorization: 'Bearer ' + token,
       }
@@ -158,14 +161,6 @@ export class FetchApiDataService {
       );
     }
 
-
-
-  // Non-typed response extraction for now
-  private extractResponseData(res: Response): any {
-    const body = res;
-    return body || { };
-  }
-
     // error handling function
     private handleError(error: HttpErrorResponse): any {
       // if error is not ErrorEvent --> error occured on the server side
@@ -174,11 +169,18 @@ export class FetchApiDataService {
       } else {
         console.error(
           `Error Status code ${error.status}, ` +
-          `Error body is: ${error.error}`);
+          `Error body is: ${error.error}`
+        );
       }
       return throwError(
         'Something bad happened; please try again later.');
     }
+
+  // Non-typed response extraction for now
+  private extractResponseData(res: Response): any {
+    const body = res;
+    return body || { };
+  }
 }
 
 
