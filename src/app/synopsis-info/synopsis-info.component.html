@@ -1,6 +1,25 @@
 <mat-card-header class="synopsis-card-header">
-    <mat-card-title>Synopsis</mat-card-title>
+    <mat-card-title>{{ data.Title }}</mat-card-title>
 </mat-card-header>
 <mat-card-content class="synopsis-card-content">
-    <p>{{ data.Description }}</p>
+    <table>
+        <tr VALIGN=TOP>
+            <td>
+                <h4>Rating:</h4>
+            </td>
+            <td><br>{{ data.MPAARating }}</td>
+        </tr>
+        <tr>
+            <td>
+                <h4>Release Year:</h4>
+            </td>
+            <td><br>{{ data.ReleaseYear }}</td>
+        </tr>
+        <tr>
+            <td>
+                <h4>Description:</h4>
+            </td>
+            <td>{{ data.Description }}</td>
+        </tr>
+    </table>
 </mat-card-content>

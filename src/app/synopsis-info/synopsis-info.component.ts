@@ -1,28 +1,25 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-
 @Component({
-  selector: 'app-movie-synopsis',
-  templateUrl: './movie-synopsis.component.html',
-  styleUrls: ['./movie-synopsis.component.scss']
+  selector: 'app-synopsis-info',
+  templateUrl: './synopsis-info.component.html',
+  styleUrls: ['./synopsis-info.component.scss']
 })
-export class MovieSynopsisComponent implements OnInit {
-
+export class SynopsisInfoComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
 
-  public data: {
-    Title: string,
-    Summary: string,
-    MPAARating: string,
-    ReleaseYear: string,
-  }
-  ) {}
+    public data: {
+      Title: string,
+      Description: string,
+      MPAARating: string,
+      ReleaseYear: string,
+    }
+  ) { }
 
   ngOnInit(): void {
-    
   }
 
 }
