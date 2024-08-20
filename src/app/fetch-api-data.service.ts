@@ -4,7 +4,7 @@ import { Observable, throwError, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
 // Declaring the api url that will provide data for the client app
-const apiUrl = 'https://tinflicks-2bf7ff98613b.herokuapp.com/';
+const apiUrl = 'https://tinflicks-2bf7ff98613b.herokuapp.com';
 //This Injectable code tells Angular that this service will be avaiable everywhere, ie 'root'
 @Injectable({
   providedIn: 'root'
