@@ -54,6 +54,28 @@ export class UserProfileComponent implements OnInit {
     }
   }
 
+  // Get user's favorite movies
+  getFavorites(): void {
+    this.user = this.fetchApiData.getUser();
+    this.userData.FavoriteMovies = this.user.FavoriteMovies;
+    this.FavoriteMovies = this.user.FavoriteMovies;
+  }
+
+  // Allow users to remove favorites from their profile
+  deleteFavoriteMovie(movie: any): void {
+    this.user = this.fetchApiData.getUser();
+    this.userData.Username = this.user.Username;
+    this.fetchApiData.deleteFavorites(movie).subscribe((result) => {
+      localStorage.setItem('user', JSON.stringify(result));
+      this.getFavorites();
+      this.userProfile();
+      this.snackBar.open('A movie has been deleted from your favorites.', 'OK', {
+        duration:3000,
+      });
+    });
+  }
+
+  // Returns user information (username, email, birthday)
   userProfile(): void {
     this.user = this.fetchApiData.getUser();
     this.userData.Username = this.user.Username;
