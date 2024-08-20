@@ -1,10 +1,15 @@
 import { Component, OnInit, Input } from '@angular/core';
-
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 
 // Import to bring in the API call
 import { FetchApiDataService } from '../fetch-api-data.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+
+// Components
+import { DirectorInfoComponent } from '../director-info/director-info.component';
+import { SynopsisInfoComponent } from '../synopsis-info/synopsis-info.component';
+import { GenreInfoComponent } from '../genre-info/genre-info.component';
 
 @Component({
   selector: 'app-user-profile',
@@ -21,12 +26,12 @@ export class UserProfileComponent implements OnInit {
   constructor(
     public fetchApiData: FetchApiDataService,
     public snackBar: MatSnackBar,
+    public dialog: MatDialog,
     private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.userProfile();
-    this.getFavorites();
+    this.getMovies();
   }
 
 
@@ -39,6 +44,7 @@ export class UserProfileComponent implements OnInit {
       this.router.navigate(["movies"]);
   }
 
+  // Boolean check to see if movie is in user's favorites
   isFavorites(movie: any): any {
     const MovieID = movie._id;
     if (this.FavoriteMovies.some((movie) => movie === MovieID)) {
@@ -51,7 +57,6 @@ export class UserProfileComponent implements OnInit {
   userProfile(): void {
     this.user = this.fetchApiData.getUser();
     this.userData.Username = this.user.Username;
-    this.userData.Password = this.user.Password;
     this.userData.Email = this.user.Email;
     this.userData.Birthday = this.user.Birthday;
     this.fetchApiData.getAllMovies().subscribe((response) => {
@@ -79,10 +84,46 @@ export class UserProfileComponent implements OnInit {
     }
   }
 
-  getFavorites(): void {
-    this.user = this.fetchApiData.getUser();
-    this.userData.FavoriteMovies = this.user.FavoriteMovies;
-    this.FavoriteMovies = this.user.FavoriteMovies;
-    console.log(`Here are the favorite movies for this user: ${this.FavoriteMovies}`);
+  // Moviecard components
+
+  getMovies(): void {
+    this.fetchApiData.getAllMovies().subscribe((resp: any) => {
+      this.movies = resp;
+      console.log(this.movies);
+      return this.movies;
+    });
+  }
+
+  showGenre(movie: any): void {
+    this.dialog.open(GenreInfoComponent, {
+      data: {
+        Name: movie.Genre.Name,
+        Description: movie.Genre.Description
+      },
+    })
+  }
+
+  showDirector(movie: any): void {
+    this.dialog.open(DirectorInfoComponent, {
+      data: {
+        Name: movie.Director.Name,
+        Bio: movie.Director.Bio,
+        Birth: movie.Director.Birth
+      },
+      width:"400px"
+    })
+  }
+
+  showDetail(movie: any): void {
+    this.dialog.open(SynopsisInfoComponent, {
+      data: {
+        Title: movie.Title,
+        Description: movie.Description,
+        MPAARating: movie.MPAARating,
+        ReleaseYear: movie.ReleaseYear
+      },
+      width: "400px"
+    })
   }
 }
+

@@ -71,21 +71,48 @@
       </mat-card-content>
     </mat-card>
   
-    <!--favorites-->
+    <!--favorites container-->
   
-    <div class="favs-container">
+    <div class="favorites-container">
       <h3>Your Favorite Movies</h3>
-      <div class="fav-movies">
-        <mat-card *ngFor="let movie of FavoriteMovies;">
-          <mat-card-content>
-            <img class="movie-posters" src="{{movie.ImagePath}}" alt="{{movie.Title}}" />
-          </mat-card-content>
+
+      <!--movie card container-->
+      <div style="display: flex;" class="movie-card-container">
+        <mat-card *ngFor="let movie of movies;" style="flex: 1 1 auto;">
+            <mat-card-header>
+                <mat-card-title>{{movie.Title}}</mat-card-title>
+                <mat-card-subtitle>Directed by: {{movie.Director.Name}}</mat-card-subtitle>
+            </mat-card-header>
+            <div class="movie-container">
+                <img class="movie-card-img" src={{movie.ImagePath}} alt= {{movie.Title}}/>
+                <mat-card-actions>
+                    <button
+                    mat-button
+                    color="primary"
+                    (click)="showGenre(movie)">
+                    Genre
+                </button>
+                    <button
+                    mat-button
+                    color="primary"
+                    (click)="showDirector(movie)">
+                    Director
+                </button>
+                    <button
+                    mat-button
+                    color="primary"
+                    (click)="showDetail(movie)">
+                    Synopsis
+                </button>
+                <button (click)="isFavorite(movie._id)? deleteFavoriteMovie(movie._id) : addFavoriteMovie(movie._id)">
+                  <mat-icon>{{ isFav(movie._id) ? 'favorite' : 'favorite_border' }}</mat-icon>
+              </button>
+                </mat-card-actions>
+            </div>
         </mat-card>
-        <div *ngIf="!FavoriteMovies || FavoriteMovies.length === 0">
-          <p>You have no favorite movies.</p>
-        </div>
-      </div>
     </div>
+</div>
+
   
   </div>
 </div>
