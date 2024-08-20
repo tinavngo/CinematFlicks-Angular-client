@@ -3,7 +3,7 @@
             <button mat-button color="primary" (click)="redirectProfile()">User Profile</button>
             <button mat-button color="primary" (click)="logout()">Logout</button>
         </nav>
-        <div style="display: flex;">
+        <div style="display: flex;" class="movie-card-container">
             <mat-card *ngFor="let movie of movies;" style="flex: 1 1 auto;">
                 <mat-card-header>
                     <mat-card-title>{{movie.Title}}</mat-card-title>
@@ -30,8 +30,10 @@
                         (click)="showDetail(movie)">
                         Synopsis
                     </button>
-                    <mat-icon
-                    (click)="addFavorites(movie.Title)">favorite_border</mat-icon>
+                    <button mat-icon-button color="primary" (click)="toggleIcon(movie)">
+                        <mat-icon *ngIf="!isFavorite(movie)" style="transform: scale(1.5);" color="primary">favorite_border</mat-icon>
+                        <mat-icon *ngIf="isFavorite(movie)" style="transform:scale(1.5);" color="primary">favorite</mat-icon>
+                    </button>
                     </mat-card-actions>
                 </div>
             </mat-card>

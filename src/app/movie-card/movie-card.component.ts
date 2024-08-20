@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 // info components
 import { GenreInfoComponent } from '../genre-info/genre-info.component';
 import { DirectorInfoComponent } from '../director-info/director-info.component';
-import { MovieSynopsisComponent } from '../synopsis-info/synopsis-info.component';
+import { SynopsisInfoComponent } from '../synopsis-info/synopsis-info.component';
 
 @Component({
   selector: 'app-movie-card',
@@ -18,7 +18,7 @@ export class MovieCardComponent implements OnInit {
   movies: any[] = [];
   user: any = {};
   FavoriteMovies: any[] = [];
-  isFavoriteMovie: boolean = false;
+  isFavMovie: boolean = false;
   userData = { Username: "", FavoriteMovies: []};
 
 
@@ -33,6 +33,7 @@ export class MovieCardComponent implements OnInit {
     this.getMovies();
   }
 
+// Get ALL movies
   getMovies(): void {
     this.fetchApiData.getAllMovies().subscribe((response: any) => {
       this.movies = response;
@@ -42,6 +43,55 @@ export class MovieCardComponent implements OnInit {
   }
 
 
+  // Boolean check to see if movie is in user's favorites
+  isFavorite(movie: any): any {
+    const MovieID = movie._id;
+    if (this.FavoriteMovies.some((movie) => movie === MovieID)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  getFavoriteMovies(): void {
+    this.user = this.fetchApiData.getUser();
+    this.userData.FavoriteMovies = this.user.FavoriteMovies;
+    this.FavoriteMovies = this.user.FavoriteMovies;
+    console.log('Favorite movies:', this.FavoriteMovies);
+  }
+
+  // Add movie to favorites and notify user
+  addFavoriteMovie(movie: any): void {
+    this.user = this.fetchApiData.getUser();
+    this.userData.Username = this.user.Username;
+    this.fetchApiData.addFavorites(movie).subscribe((result) => {
+      localStorage.setItem('user', JSON.stringify(result));
+      this.getFavoriteMovies();
+      this.snackBar.open('A movie has been added to your favorites.', 'OK', {
+        duration:3000,
+      });
+    });
+  }
+
+  // Delete movie to favorites and notify user
+  deleteFavoriteMovie(movie: any): void {
+    this.user = this.fetchApiData.getUser();
+    this.userData.Username = this.user.Username;
+    this.fetchApiData.deleteFavorites(movie).subscribe((result) => {
+      localStorage.setItem('user', JSON.stringify(result));
+      this.getFavoriteMovies();
+      this.snackBar.open('A movie has been deleted from your favorites.', 'OK', {
+        duration:3000,
+      });
+    });
+  }
+
+  toggleIcon(movie: any): void {
+    const isFavoriteMovie = this.isFavorite(movie);
+    isFavoriteMovie
+    ? this.deleteFavoriteMovie(movie)
+    : this.addFavoriteMovie(movie);
+  }
 
   logout(): void {
     this.router.navigate(["welcome"]);
@@ -52,39 +102,7 @@ redirectProfile(): void {
     this.router.navigate(["profile"]);
 }
 
-modifyFavoriteMovies(movie: any): void {
-  const userJson = localStorage.getitem('user');
-  if (!userJson) return;
 
-    let user = JSON.parse(localStorage.getItem("user") || "");
-    let icon = document.getElementById(`${movie._id}-favorite-icon`);
-
-    if (user.FavoriteMovies.includes(movie._id)) {
-        this.fetchApiData.deleteFavorites(movie).subscribe(res => {
-            icon?.setAttribute("fontIcon", "favorite_border");
-
-            console.log("delete success")
-            console.log(res);
-            user.FavoriteMovies = res.FavoriteMovies;
-            localStorage.setItem("user", JSON.stringify(user));
-        }, err => {
-            console.error(err)
-        })
-    } else {
-
-        this.fetchApiData.addFavorites(movie).subscribe(res => {
-            icon?.setAttribute("fontIcon", "favorite");
-
-            console.log("add success")
-            console.log(res);
-            user.FavoriteMovies = res.FavoriteMovies;
-            localStorage.setItem("user", JSON.stringify(user));
-        }, err => {
-            console.error(err)
-        })
-    }
-    localStorage.setItem("user", JSON.stringify(user));
-}
 
 showGenre(movie: any): void {
     this.dialog.open(GenreInfoComponent, {
@@ -106,10 +124,10 @@ showDirector(movie: any): void {
     })
 }
 showDetail(movie: any): void {
-    this.dialog.open(MovieSynopsisComponent, {
+    this.dialog.open(SynopsisInfoComponent, {
         data: {
           Title: movie.Title,
-          Summary: movie.Description,
+          Description: movie.Description,
           MPAARating: movie.MPAARating,
           ReleaseYear: movie.ReleaseYear,
         },
