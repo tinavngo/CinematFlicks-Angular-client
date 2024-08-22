@@ -104,11 +104,17 @@
                     (click)="showDetail(movie)">
                     Synopsis
                 </button>
-                <button (click)="isFavorite(movie._id)? deleteFavoriteMovie(movie._id) : addFavoriteMovie(movie._id)">
-                  <mat-icon>{{ isFav(movie._id) ? 'favorite' : 'favorite_border' }}</mat-icon>
+      <!--no-favorites-messsage container-->
+      <div class="no-favorites-message" *ngIf="FavoriteMovies.length === 0">
+        <p>You have no favorite movies.</p>
+      </div>
+
               </button>
                 </mat-card-actions>
             </div>
+              <button mat-icon-button color="primary" (click)="deleteFavoriteMovie(movie)">
+                <mat-icon style="transform:scale(1.5);" color="primary">favorite</mat-icon>
+              </button>
         </mat-card>
     </div>
 </div>

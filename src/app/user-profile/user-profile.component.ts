@@ -31,7 +31,8 @@ export class UserProfileComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getMovies();
+    this.userProfile();
+    this.getFavoriteMovies();
   }
 
 
@@ -45,35 +46,54 @@ export class UserProfileComponent implements OnInit {
   }
 
   // Boolean check to see if movie is in user's favorites
-  isFavorites(movie: any): any {
-    const MovieID = movie._id;
-    if (this.FavoriteMovies.some((movie) => movie === MovieID)) {
-      return true;
-    } else {
-      return false;
-    }
+  isFavorite(movie: any): boolean {
+    return this.FavoriteMovies.includes(movie._id);
+  }
+
+  updateFavoriteMoviesList(): void {
+    this.fetchApiData.getAllMovies().subscribe((response) => {
+      this.FavoriteMovies = response.filter((movie: any) => this.user.FavoriteMovies.includes)
+    });
   }
 
   // Get user's favorite movies
-  getFavorites(): void {
-    this.user = this.fetchApiData.getUser();
-    this.userData.FavoriteMovies = this.user.FavoriteMovies;
-    this.FavoriteMovies = this.user.FavoriteMovies;
-  }
+  // Get user's favorite movies
+getFavoriteMovies(): void {
+  this.fetchApiData.getUser().subscribe((user: any) => {
+    this.user = user;
+    this.FavoriteMovies = user.FavoriteMovies;
+    this.updateFavoriteMoviesList();
+    console.log('Favorite movies:', this.FavoriteMovies);
+  });
+}
+
 
   // Allow users to remove favorites from their profile
   deleteFavoriteMovie(movie: any): void {
-    this.user = this.fetchApiData.getUser();
-    this.userData.Username = this.user.Username;
-    this.fetchApiData.deleteFavorites(movie).subscribe((result) => {
-      localStorage.setItem('user', JSON.stringify(result));
-      this.getFavorites();
-      this.userProfile();
-      this.snackBar.open('A movie has been deleted from your favorites.', 'OK', {
-        duration:3000,
-      });
+    this.fetchApiData.deleteFavorites(movie).subscribe({
+      next: (result) => {
+        //Update the UI by removing the movie from FavoritesMovie array
+        this.FavoriteMovies = this.FavoriteMovies.filter((favMovie: any) => favMovie._id !== movie._id);
+
+        //Update user data in localStorage
+        this.user.FavoriteMovies = this.user.FavoriteMovies.filter((id: string) => id !== movie._id);
+        localStorage.setItem('user', JSON.stringify(this.user));
+
+        // Open the snackbar to confirm deletion
+        this.snackBar.open('A movie has been deleted from your favorites', 'OK', {
+          duration: 3000
+        });
+        console.log('Movie successfully removed from favorites:', movie.Title);
+      },
+      error: (err) => {
+        console.error('Error deleting favorite movie:', err);
+        this.snackBar.open('Failed to remove movie from favorites', 'OK', {
+          duration: 3000,
+        });
+      }
     });
   }
+  
 
   // Returns user information (username, email, birthday)
   userProfile(): void {
@@ -122,6 +142,7 @@ export class UserProfileComponent implements OnInit {
         Name: movie.Genre.Name,
         Description: movie.Genre.Description
       },
+      width:"400px"
     })
   }
 
