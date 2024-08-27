@@ -19,6 +19,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FormsModule } from '@angular/forms';
+
+// import site components
 import { UserRegistrationFormComponent } from './user-registration-form/user-registration-form.component';
 import { UserLoginFormComponent } from './user-login-form/user-login-form.component';
 import { MovieCardComponent } from './movie-card/movie-card.component';
@@ -27,6 +29,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { GenreInfoComponent } from './genre-info/genre-info.component';
 import { DirectorInfoComponent } from './director-info/director-info.component';
 import { SynopsisInfoComponent } from './synopsis-info/synopsis-info.component';
+import { MovieCarouselComponent } from './movie-carousel/movie-carousel.component';
 
 const appRoutes: Routes = [
   { path: 'welcome', component: WelcomePageComponent},
@@ -46,6 +49,7 @@ const appRoutes: Routes = [
     GenreInfoComponent,
     DirectorInfoComponent,
     SynopsisInfoComponent,
+    MovieCarouselComponent,
   ],
   imports: [
     BrowserModule,
@@ -62,7 +66,8 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     MatIconModule,
     MatToolbarModule,
-    MatDividerModule
+    MatDividerModule,
+    BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
