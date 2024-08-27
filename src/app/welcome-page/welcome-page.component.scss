@@ -1,0 +1,60 @@
+.main-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #3F4045;
+}
+
+.button-container {
+    font-size: 80px;
+    width: 30%;
+}
+
+.welcome-button {
+    width: 50%;
+    margin: 15px;
+    padding: 25px;
+    width: 100%;
+    font-size: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    z-index: 2;
+}
+
+.welcome-button:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+    font-weight: 500;
+    font-size: 500%;
+    margin-bottom: 50px;
+    color: white;
+    text-shadow: rgba(255, 255, 255, 0.322) 2px 2px 2px;
+}
+
+p {
+    font-weight: 500;
+    font-size: 130%;
+    margin-bottom: 100px;
+    color: rgba(255, 255, 255, 0.665);
+    text-shadow: rgba(255, 255, 255, 0.322) 2px 2px 2px;
+}
+
+.overlay-content {
+    z-index: 10;
+    position: absolute;
+    top: 8%;
+}
+
+.background-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.69), rgba(0, 0, 0, 0));
+    z-index: 1; /* Ensure it's behind the title but above the movies */
+  }

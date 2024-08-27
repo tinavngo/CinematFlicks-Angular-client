@@ -1,0 +1,44 @@
+.carousel {
+    position: relative;
+    width: 100%;
+    height: 400px; 
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+    // Ensure all images take up the full width of the carousel and are centered
+    img {
+      width: 100%;
+      height: 310px;
+      object-fit: cover; // Ensures the image covers the container without distortion
+      display: block;
+      max-height: 100%; // Ensures the image doesn't exceed the container's height
+      margin-bottom: 100px;
+    }
+  
+    // Animation specific styling, to ensure smooth transitions
+    div[ng-reflect-ng-switch] {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+    }
+  
+    // Active image styling
+    div[ng-reflect-ng-switch-active] {
+      opacity: 1;
+    }
+
+    .carousel img {
+        will-change: opacity;
+      }
+      
+  }
+  
