@@ -1,0 +1,10 @@
+<div class="carousel">
+    <ng-container *ngIf="images.length">
+      <ng-container *ngFor="let image of images; let i = index">
+        <div *ngIf="i === currentIndex" @fadeAnimation>
+          <img [src]="image" alt="Movie Image">
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+  
