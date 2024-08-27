@@ -1,17 +1,21 @@
-    <div>
+    <div class="movies-container">
         <nav>
-            <button mat-button color="primary" (click)="redirectProfile()">User Profile</button>
-            <button mat-button color="primary" (click)="logout()">Logout</button>
+            <button mat-button (click)="redirectProfile()">User Profile</button>
+            <button mat-button (click)="logout()">Logout</button>
         </nav>
-        <div style="display: flex;" class="movie-card-container">
-            <mat-card *ngFor="let movie of movies;" style="flex: 1 1 auto;">
+        <div class="title">
+            <h1>AnguFlix</h1>
+        </div>
+        <div class="movie-card-container">
+            <mat-card *ngFor="let movie of movies;" class="movie-card">
                 <mat-card-header>
                     <mat-card-title>{{movie.Title}}</mat-card-title>
                     <mat-card-subtitle>Directed by: {{movie.Director.Name}}</mat-card-subtitle>
                 </mat-card-header>
                 <div class="movie-container">
                     <img class="movie-card-img" src={{movie.ImagePath}} alt= {{movie.Title}}/>
-                    <mat-card-actions>
+                    <hr/>
+                    <mat-card-actions class="mat-actions">
                         <button
                         mat-button
                         color="primary"

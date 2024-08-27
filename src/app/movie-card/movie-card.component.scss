@@ -4,16 +4,59 @@
     margin-right: 2vw;
     margin-left: 2vw;
     justify-content: center;
-    margin-top: 11vh;
+    margin-top: 15vh;
+    text-align: center;
 }
 
+.mat-actions {
+    margin-top: 10px;
+}
+
+.movie-card-img {
+    margin: 10px;
+}
 .movie-card {
     margin: 15px;
-    width: 350px;
-    height: 550px;
+    width: 310px;
+    height: 400px;
+    transition: all .2s ease-in-out;
+    background-color: rgba(255, 255, 255, 0.771);
+}
+
+.movie-card:hover {
+    box-shadow: rgba(77, 63, 125, 0.557)  5px 5px 5px;
+    transform: scale(1.1);
 }
 
 .img-container {
     width: 100%;
     height: 80%;
+}
+
+nav {
+    background-color: rgba(22, 18, 33, 0.56);
+    color: white;
+    margin-bottom: 20px;
+    }
+
+
+h1 {
+    position: absolute;  
+    text-align: center;
+    color:  rgba(255, 255, 255, 0.771);  
+    font-weight: 500;
+    font-size: 60px;
+    padding: 40px; 
+    text-shadow: rgba(0, 0, 0, 0.409) 4px 4px 4px;
+  }
+  
+.movies-container {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.655), rgba(0, 0, 0, 0));
+    background-color: grey;
+    align-items: center;
+    justify-content: center;
 }
