@@ -4,7 +4,7 @@
     margin-right: 2vw;
     margin-left: 2vw;
     justify-content: center;
-    margin-top: 15vh;
+    margin-top: 10vh;
     text-align: center;
 }
 
@@ -34,21 +34,33 @@
 }
 
 nav {
-    background-color: rgba(22, 18, 33, 0.56);
+    background-color: #3f51b5;
     color: white;
-    margin-bottom: 20px;
+    padding: 10px;
+    margin-bottom: 40px;
     }
 
 
 h1 {
-    position: absolute;  
-    text-align: center;
+    display: flex;
+    justify-content: center;
     color:  rgba(255, 255, 255, 0.771);  
     font-weight: 500;
     font-size: 60px;
-    padding: 40px; 
+    padding: 20px; 
+    margin-top: 10vh;
     text-shadow: rgba(0, 0, 0, 0.409) 4px 4px 4px;
   }
+
+p {
+    display: flex;
+    justify-content: center;
+    font-weight: 500;
+    font-size: 130%;
+    margin-bottom: 100px;
+    color: rgba(255, 255, 255, 0.665);
+    text-shadow: rgba(255, 255, 255, 0.322) 2px 2px 2px;
+}
   
 .movies-container {
     position: relative;
