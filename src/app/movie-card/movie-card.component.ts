@@ -4,22 +4,27 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
-// info components
+// Info components
 import { GenreInfoComponent } from '../genre-info/genre-info.component';
 import { DirectorInfoComponent } from '../director-info/director-info.component';
 import { SynopsisInfoComponent } from '../synopsis-info/synopsis-info.component';
 
+/**
+ * Component to display a list of movie cards
+ * Provides functionality to view movie dialogs, manage favorite movies, and interact with toggle
+ */
 @Component({
   selector: 'app-movie-card',
   templateUrl: './movie-card.component.html',
   styleUrls: ['./movie-card.component.scss']
 })
+
 export class MovieCardComponent implements OnInit {
-  movies: any[] = [];
-  user: any = {};
-  FavoriteMovies: any[] = [];
-  isFavMovie: boolean = false;
-  userData = { Username: "", FavoriteMovies: []};
+  movies: any[] = [];     // Array to hold the list of movies fetched from the API.
+  user: any = {};     // Holds the user's profile data.
+  FavoriteMovies: any[] = [];     // Array to store the user's favorite movies.
+  isFavMovie: boolean = false;      // Boolean to indicate whether a movie is in the user's favorites list.
+  userData = { Username: "", FavoriteMovies: []};     // Object to store user data, including their username and favorite movies.
 
 
   constructor(
@@ -33,7 +38,10 @@ export class MovieCardComponent implements OnInit {
     this.getMovies();
   }
 
-// Get ALL movies
+
+  /**
+   * Retrieves a list of ALL movies from CinematFlicks API
+   */
   getMovies(): void {
     this.fetchApiData.getAllMovies().subscribe((response: any) => {
       this.movies = response;
@@ -43,7 +51,12 @@ export class MovieCardComponent implements OnInit {
   }
 
 
-  // Boolean check to see if movie is in user's favorites
+  /**
+   * Checks if a movie is in the user's favorites
+   * 
+   * @param {any} movie - movie to check 
+   * @returns {boolean} - True if the movie is in the user's favorites otherwise false
+   */
   isFavorite(movie: any): any {
     const MovieID = movie._id;
     if (this.FavoriteMovies.some((movie) => movie === MovieID)) {
@@ -53,6 +66,12 @@ export class MovieCardComponent implements OnInit {
     }
   }
 
+
+  /**
+   * Retrieves the user's favorite movies from the API and updates the `FavoriteMovies` array
+   * 
+   * @returns {void}
+   */
   getFavoriteMovies(): void {
     this.user = this.fetchApiData.getUser();
     this.userData.FavoriteMovies = this.user.FavoriteMovies;
@@ -60,7 +79,11 @@ export class MovieCardComponent implements OnInit {
     console.log('Favorite movies:', this.FavoriteMovies);
   }
 
-  // Add movie to favorites and notify user
+  /**
+   * Add movie to user's favorites and displays notification
+   * 
+   * @param {any} movie - Post favorite movie to user's favorites
+   */
   addFavoriteMovie(movie: any): void {
     this.user = this.fetchApiData.getUser();
     this.userData.Username = this.user.Username;
@@ -73,7 +96,12 @@ export class MovieCardComponent implements OnInit {
     });
   }
 
-  // Delete movie to favorites and notify user
+  /**
+   * Delete movie from user's favorites and displays notification
+   * 
+   * @param {any} movie - Delete favorite movie from user's favorites 
+   * @returns {void}
+   */
   deleteFavoriteMovie(movie: any): void {
     this.user = this.fetchApiData.getUser();
     this.userData.Username = this.user.Username;
@@ -86,6 +114,12 @@ export class MovieCardComponent implements OnInit {
     });
   }
 
+  /**
+   * Toggles from adding and deleting favorite movie from user's favorites
+   * 
+   * @param {any} movie - Update favorites in user's favorites
+   * @returns {void}
+   */
   toggleIcon(movie: any): void {
     const isFavoriteMovie = this.isFavorite(movie);
     isFavoriteMovie
@@ -93,17 +127,32 @@ export class MovieCardComponent implements OnInit {
     : this.addFavoriteMovie(movie);
   }
 
+  /**
+   * Logs user out and navigates back to homepage
+   * 
+   * @returns {void}
+   */
   logout(): void {
     this.router.navigate(["welcome"]);
     localStorage.removeItem("user");
 }
 
+/**
+ * Redirects the user to their profile
+ * 
+ * @returns {void}
+ */
 redirectProfile(): void {
     this.router.navigate(["profile"]);
 }
 
 
-
+/**
+ * Opens dialog to show the genre information for the selected movie
+ * 
+ * @param {any} movie - The movie whose genre information will be displayed 
+ * @returns {void}
+ */
 showGenre(movie: any): void {
     this.dialog.open(GenreInfoComponent, {
         data: {
@@ -113,6 +162,13 @@ showGenre(movie: any): void {
         width: "400px"
     })
 }
+
+/**
+ * Opens dialog to show the director information for the selected movie
+ * 
+ * @param {any} movie - The movei whose director information will be displayed.
+ * @returns {void}
+ */
 showDirector(movie: any): void {
     this.dialog.open(DirectorInfoComponent, {
         data: {
@@ -123,6 +179,12 @@ showDirector(movie: any): void {
         width: "400px"
     })
 }
+
+/**
+ * Opens dialog to show the the synopsis of the selected movie.
+ * @param {any} movie - The movies whos synopsis will be displayed 
+ * @returns {void}
+ */
 showDetail(movie: any): void {
     this.dialog.open(SynopsisInfoComponent, {
         data: {

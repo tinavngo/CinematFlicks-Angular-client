@@ -1,16 +1,18 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-
-// Import to bring in the API call
 import { FetchApiDataService } from '../fetch-api-data.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-// Components
+// Info components
 import { DirectorInfoComponent } from '../director-info/director-info.component';
 import { SynopsisInfoComponent } from '../synopsis-info/synopsis-info.component';
 import { GenreInfoComponent } from '../genre-info/genre-info.component';
 
+/**
+ * Component for handling user login functionality
+ * Displaying a login form and handles the login process through the API.
+ */
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -23,6 +25,14 @@ export class UserProfileComponent implements OnInit {
   movies: any[] = [];
   user: any = {};
 
+  /**
+   * Constructor for the UserLoginComponent
+   * 
+   * @param {FetchApiDataService} fetchApiData - Service for making API calls to login
+   * @param {MatDialogRef<UserLoginFormComponent>} dialog - Dialog service for displaying movie information
+   * @param {MatSnackBar} snackBar - Snack bar service for user notifications
+   * @param {Router} router - Router for navigation
+   */
   constructor(
     public fetchApiData: FetchApiDataService,
     public snackBar: MatSnackBar,
@@ -30,34 +40,61 @@ export class UserProfileComponent implements OnInit {
     private router: Router
   ) { }
 
+  /**
+   * OnInit lifecycle hook to load user profile and favorite movies when the component initializes.
+   * 
+   * @returns {void}
+   */
   ngOnInit(): void {
     this.userProfile();
     this.getFavoriteMovies();
   }
 
-
+  /**
+   * Logs the user out by removing their data from localStorage and redirects to the welcome page.
+   * 
+   * @returns {void}
+   */
     logout(): void {
       this.router.navigate(['welcome']);
       localStorage.removeItem("user");
     }
 
+   /**
+   * Redirects the user to the movies page.
+   * 
+   * @returns {void}
+   */
     redirectMovies(): void {
       this.router.navigate(["movies"]);
   }
 
-  // Boolean check to see if movie is in user's favorites
+  /**
+   * Checks if a movie is in the user's favorites list.
+   * 
+   * @param {any} movie - The movie object to check. 
+   * @returns {boolean} True if the movie is a favorite, false otherwise
+   */
   isFavorite(movie: any): boolean {
     return this.FavoriteMovies.includes(movie._id);
   }
 
+  /**
+   * Fetches all movies and filters them to update the list of favorite movies.
+   * 
+   * @returns {void}
+   */
   updateFavoriteMoviesList(): void {
     this.fetchApiData.getAllMovies().subscribe((response) => {
       this.FavoriteMovies = response.filter((movie: any) => this.user.FavoriteMovies.includes)
     });
   }
 
-  // Get user's favorite movies
-  // Get user's favorite movies
+/**
+   * Fetches the user's profile and favorite movies from the API.
+   * 
+   * @returns {void}
+   */
 getFavoriteMovies(): void {
   this.fetchApiData.getUser().subscribe((user: any) => {
     this.user = user;
@@ -68,7 +105,12 @@ getFavoriteMovies(): void {
 }
 
 
-  // Allow users to remove favorites from their profile
+  /**
+   * Removes a movie from the user's favorites and updates both the UI and localStorage.
+   * 
+   * @param {any} movie - The movie object to remove from favorites.
+   * @returns {void}
+   */
   deleteFavoriteMovie(movie: any): void {
     this.fetchApiData.deleteFavorites(movie).subscribe({
       next: (result) => {
@@ -95,7 +137,11 @@ getFavoriteMovies(): void {
   }
   
 
-  // Returns user information (username, email, birthday)
+  /**
+  * Fetches the user's profile information (username, email, birthday).
+  * 
+  * @returns {void}
+  */
   userProfile(): void {
     this.user = this.fetchApiData.getUser();
     this.userData.Username = this.user.Username;
@@ -106,6 +152,11 @@ getFavoriteMovies(): void {
     });
   }
 
+  /**
+   * Updates the user's profile information.
+   * 
+   * @returns {void}
+   */
   updateUser(): void {
     this.fetchApiData.editUser(this.userData).subscribe((response) => {
       console.log('User profile updated');
@@ -116,6 +167,11 @@ getFavoriteMovies(): void {
     });
   }
 
+  /**
+   * Deletes the user's account after confirming, and logs them out.
+   * 
+   * @returns {void}
+   */
   deleteUser(): void {
     if (confirm('This action cannot be undone. Would you like to still proceed?')) {
       this.fetchApiData.deleteUser().subscribe((response) => {
@@ -126,8 +182,12 @@ getFavoriteMovies(): void {
     }
   }
 
-  // Moviecard components
-
+  
+   /**
+   * Fetches all movies from the API and stores them in the `movies` array.
+   * 
+   * @returns {void}
+   */
   getMovies(): void {
     this.fetchApiData.getAllMovies().subscribe((resp: any) => {
       this.movies = resp;
@@ -136,6 +196,12 @@ getFavoriteMovies(): void {
     });
   }
 
+  /**
+   * Opens a dialog displaying genre information for a specific movie.
+   * 
+   * @param {any} movie - The movie object containing genre information.
+   * @returns {void}
+   */
   showGenre(movie: any): void {
     this.dialog.open(GenreInfoComponent, {
       data: {
@@ -146,6 +212,12 @@ getFavoriteMovies(): void {
     })
   }
 
+  /**
+   * Opens a dialog displaying director information for a specific movie.
+   * 
+   * @param {any} movie - The movie object containing director information.
+   * @returns {void}
+   */
   showDirector(movie: any): void {
     this.dialog.open(DirectorInfoComponent, {
       data: {
@@ -157,6 +229,12 @@ getFavoriteMovies(): void {
     })
   }
 
+  /**
+   * Opens a dialog displaying synopsis information for a specific movie.
+   * 
+   * @param {any} movie - The movie object containing synopsis information.
+   * @returns {void}
+   */
   showDetail(movie: any): void {
     this.dialog.open(SynopsisInfoComponent, {
       data: {
