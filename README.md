@@ -1,6 +1,23 @@
 # CinematFlicksAngularClient
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.
+
+## Description
+The client-side for an app called Anguflix that uses its corresponding REST API and database
+Hosted on GitHub Pages: https://tinavngo.github.io/CinematFlicks-Angular-client/welcome
+Server-side API used: https://github.com/tinavngo/movie_api
+
+## App Components
+ * Welcome Page:
+    * Users can login or register for the AnguFlix application.
+ * Main Page:
+    * All movies within the API are displayed in the main view.
+    * Interact with info dialogs for each individual movie,
+    * Navigate to user profile, logout and back to main page with navbar tool
+ * Profile View:
+    * Display user details and favorite movies
+    * Edit user details
+    * Delete user profile, and/or favorite movies
 
 ## Development server
 
